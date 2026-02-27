@@ -173,17 +173,13 @@ def renumerate_target(target: np.ndarray, label: int) -> np.ndarray:
 
 
 def colorize(data):
-    color_map = np.array([
-        [0, 0, 0],        # 0: black
-        [0, 0, 255],      # 1: blue
-        [255, 0, 0],      # 2: red
-    ])
+    lookup = np.zeros((256, 3), dtype=np.uint8)
+    lookup[0] = [0, 0, 0]        # black
+    lookup[1] = [0, 0, 255]      # blue
+    lookup[2] = [255, 0, 0]      # red
+    lookup[255] = [255, 255, 255] # white
 
-    result = np.zeros((*data.shape, 3), dtype=np.uint8)
-    for label, color in enumerate(color_map):
-        result[data == label] = color
-    result[data == 255] = [255, 255, 255]  # white
-    return result
+    return lookup[data]
 
 
 # Function for drawing images
